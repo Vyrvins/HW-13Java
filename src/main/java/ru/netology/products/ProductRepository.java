@@ -3,7 +3,7 @@ package ru.netology.products;
 public class ProductRepository {
     private Product[] products = new Product[0];
 
-    public void save (Product product) {
+    public void add(Product product) {
         Product[] tmp = new Product[products.length + 1];
         for (int i = 0; i < products.length; i++) {
             tmp[i] = products[i];
@@ -12,7 +12,7 @@ public class ProductRepository {
         products = tmp;
     }
 
-    public Product[] getProducts() {
+    public Product[] findAll() {
         return products;
     }
 

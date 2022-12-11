@@ -1,46 +1,36 @@
 package ru.netology.products;
 
 public class ProductManager {
+    private ProductRepository repo;
 
-        public static void main(String[] args) {
-            Product book = new Book(
-                    1,
-                    "Гарри Поттер и Тайная комната",
-                    1000,
-                    "Джоан Роулинг"
-            );
-            Product smartphone = new Smartphone(
-                    2,
-                    "Iphone 12",
-                    100_000,
-                    "Apple"
-            );
+    public ProductManager(ProductRepository repo) {
+        this.repo = repo;
+    }
 
-            private ProductRepository repo;
-
-            public ProductManager(ProductRepository repo) {
-                this.repo = repo;
-            }
-        }
+    public Product[] add(Product product) {
+        repo.add(product);
+        return new Product[0];
+    }
 
     public Product[] searchBy(String text) {
         Product[] result = new Product[0]; // тут будем хранить подошедшие запросу продукты
-        for (Product product: repository.findAll()) {
+        for (Product product : repo.findAll()) {
             if (matches(product, text)) {
-                // "добавляем в конец" массива result продукт product
+                Product[] tmp = new Product[result.length + 1];
+                for (int i = 0; i < result.length; i++) {
+                    tmp[i] = result[i];
+                }
+                tmp[tmp.length - 1] = product;
+                result = tmp;
             }
         }
         return result;
     }
 
-    // метод определения соответствия товара product запросу search
     public boolean matches(Product product, String search) {
         if (product.getName().contains(search)) {
-            return true;
-        } else {
-            return false;
+            return product.getName().contains(search);
         }
-        // или в одну строку:
-        // return product.getName().contains(search);
+        return false;
     }
 }
